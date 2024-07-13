@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
         }
         UserEntity user = new UserEntity();
         user.setEmail(email);
-        user.setFullName(fullname);
+        user.setFullname(fullname);
         user.setPassword(passwordEncoder.encode(password));
 
         List<PermissionEntity> permissions = new ArrayList<>();

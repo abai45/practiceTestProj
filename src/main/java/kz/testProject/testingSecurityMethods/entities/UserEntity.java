@@ -22,7 +22,7 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @Column(name = "password")
     private String password;
     @Column(name = "full_name")
-    private String fullName;
+    private String fullname;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<PermissionEntity> permissions;
 
