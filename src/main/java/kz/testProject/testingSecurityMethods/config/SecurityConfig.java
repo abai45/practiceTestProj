@@ -15,6 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -35,7 +38,14 @@ public class SecurityConfig {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userService()).passwordEncoder(passwordEncoder());
 
-        http.formLogin(
+        http.authorizeHttpRequests(
+            authorizeRequests -> authorizeRequests
+                    .requestMatchers(GET,"/profile").authenticated()
+                    .requestMatchers(POST,"/signOut").authenticated()
+                    .requestMatchers(POST,"/signIn").anonymous()
+                    .requestMatchers(POST,"/signUp").permitAll()
+                    .anyRequest().authenticated()
+        ).formLogin(
                 formLogin -> formLogin
                         .loginPage("/signIn")
                         .defaultSuccessUrl("/profile")
