@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Profile</title>
+</head>
+<body>
+    <div class="container" th:insert="vendor.navbar/navbar.html"></div>
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Email</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Role</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user: ${users}">
+                <td th:text="${user.getId()}"></td>
+                <td th:text="${user.getEmail()}"></td>
+                <td th:text="${user.getFullName()}"></td>
+                <td th:each="role: ${user.getPermissions()}">
+                    <span th:text="${role.getAuthority()}"></span>
+                </td>
+                <td>
+                    <form th:action="@{'/deleteUser'}" method="post">
+                        <input type="hidden" th:value="${user.getId()}" name="id">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

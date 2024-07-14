@@ -36,13 +36,39 @@ public class UserServiceImpl implements UserService {
         }
         UserEntity user = new UserEntity();
         user.setEmail(email);
-        user.setFullname(fullname);
+        user.setFullName(fullname);
         user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
 
         List<PermissionEntity> permissions = new ArrayList<>();
         PermissionEntity permissionEntity = permissionRepository.findByName("USER");
         permissions.add(permissionEntity);
         user.setPermissions(permissions);
         userRepository.save(user);
+    }
+
+    @Override
+    public void updateUser(String fullname, String email, String password, String rePassword) {
+        if(userRepository.findByEmail(email).isPresent()) {
+            if(!passwordEncoder.matches(password, rePassword)) {
+                throw new RuntimeException("Wrong password");
+            }
+            UserEntity user = userRepository.findByEmail(email).get();
+            user.setFullName(fullname);
+            user.setPassword(passwordEncoder.encode(password));
+            userRepository.save(user);
+        } else {
+            throw new RuntimeException("User does not exist");
+        }
+    }
+
+    @Override
+    public List<UserEntity> getUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }

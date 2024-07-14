@@ -22,8 +22,13 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @Column(name = "password")
     private String password;
     @Column(name = "full_name")
-    private String fullname;
+    private String fullName;
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "t_users_permissions",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id")
+    )
     private List<PermissionEntity> permissions;
 
     @Override

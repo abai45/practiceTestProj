@@ -1,6 +1,5 @@
 package kz.testProject.testingSecurityMethods.config;
 
-import kz.testProject.testingSecurityMethods.repositories.UserRepository;
 import kz.testProject.testingSecurityMethods.service.UserService;
 import kz.testProject.testingSecurityMethods.service.impl.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -39,23 +38,26 @@ public class SecurityConfig {
         authenticationManagerBuilder.userDetailsService(userService()).passwordEncoder(passwordEncoder());
 
         http.authorizeHttpRequests(
-            authorizeRequests -> authorizeRequests
-                    .requestMatchers(GET,"/profile").authenticated()
-                    .requestMatchers(POST,"/signOut").authenticated()
-                    .requestMatchers(POST,"/signIn").anonymous()
-                    .requestMatchers(POST,"/signUp").permitAll()
-                    .anyRequest().authenticated()
+                authorizeRequests -> authorizeRequests
+                        .requestMatchers(GET, "/", "/signIn", "/signUp").permitAll()
+                        .requestMatchers(POST, "/signUp").permitAll()
+                        .requestMatchers(POST, "/signIn").anonymous()
+                        .requestMatchers(GET, "/profile").authenticated()
+                        .anyRequest().authenticated()
         ).formLogin(
                 formLogin -> formLogin
+                        .loginProcessingUrl("/enter")
                         .loginPage("/signIn")
                         .defaultSuccessUrl("/profile")
                         .failureUrl("/signIn?error")
                         .usernameParameter("email")
                         .passwordParameter("password")
+                        .permitAll()
         ).logout(
                 logout -> logout
-                        .logoutSuccessUrl("/signOut?logout")
                         .logoutUrl("/signOut")
+                        .logoutSuccessUrl("/")
+                        .permitAll()
         ).csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
