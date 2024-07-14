@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         List<PermissionEntity> permissions = new ArrayList<>();
-        PermissionEntity permissionEntity = permissionRepository.findByName("USER");
+        PermissionEntity permissionEntity = permissionRepository.findByName("ROLE_USER");
         permissions.add(permissionEntity);
         user.setPermissions(permissions);
         userRepository.save(user);
