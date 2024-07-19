@@ -43,7 +43,7 @@ public class SecurityConfig {
                         .requestMatchers(POST, "/signUp").permitAll()
                         .requestMatchers(POST, "/signIn").anonymous()
                         .requestMatchers(GET, "/profile").authenticated()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
         ).formLogin(
                 formLogin -> formLogin
                         .loginProcessingUrl("/enter")

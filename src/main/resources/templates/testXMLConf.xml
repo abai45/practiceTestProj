@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persons>
+    <person>
+        <gender th:if="${pinfo['gender'] == 'male'}">Hello, Mr. <fname th:text="${pinfo['name']}"></fname>.</gender>
+        <gender th:if="${pinfo['gender'] != 'male'}">Hello, Mrs. <fname th:text="${pinfo['name']}"></fname>.</gender>
+        <email th:text="${pinfo['email']}"></email>
+        <phone th:text="${pinfo['phone']}"></phone>
+        <city th:text="${pinfo['city']}"></city>
+    </person>
+</persons>

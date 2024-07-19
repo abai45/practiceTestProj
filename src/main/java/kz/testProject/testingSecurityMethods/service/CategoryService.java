@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface CategoryService {
     void addCategory(String category, String description, String parentCategory);
+    void createSubCategory(String category, String description, String parentCategory);
+    void addSubCategory(String category, List<String> subCategories);
     List<CategoryDto> getAllCategories();
     CategoryDto getCategory(String category);
     void deleteCategory(String category);

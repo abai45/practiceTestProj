@@ -28,6 +28,20 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public void createSubCategory(String category, String description, String parentCategory) {
+        CategoryEntity categoryEntity = new CategoryEntity();
+        categoryEntity.setName(category);
+        categoryEntity.setDescription(description);
+        categoryEntity.setParentCategory(getCategoryEntityByName(parentCategory));
+        categoryRepository.save(categoryEntity);
+    }
+
+    @Override
+    public void addSubCategory(String category, List<String> subCategories) {
+
+    }
+
+    @Override
     public List<CategoryDto> getAllCategories() {
         List<CategoryEntity> categoryEntities = categoryRepository.findAll();
         List<CategoryDto> categoryDtos = new ArrayList<>();
