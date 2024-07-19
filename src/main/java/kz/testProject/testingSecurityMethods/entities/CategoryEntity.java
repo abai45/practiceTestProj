@@ -24,4 +24,8 @@ public class CategoryEntity extends BaseEntity{
     private CategoryEntity parentCategory;
     @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CategoryEntity> children;
+
+    public String getParentCategoryName() {
+        return parentCategory != null ? parentCategory.getName() : "No parent";
+    }
 }

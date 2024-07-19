@@ -38,7 +38,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void addSubCategory(String category, List<String> subCategories) {
-
+        CategoryEntity parentCategory = getCategoryEntityByName(category);
+        for (String subCategory : subCategories) {
+            CategoryEntity subCategoryEntity = getCategoryEntityByName(subCategory);
+            subCategoryEntity.setParentCategory(parentCategory);
+        }
+        categoryRepository.save(parentCategory);
     }
 
     @Override
@@ -97,11 +102,12 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(food -> food.getName().toString())
                 .toList());
         dto.setCategoryDescription(category.getDescription());
-        dto.setParentCategory(category.getParentCategory().getName().toString());
+        dto.setParentCategory(category.getParentCategory() != null ? category.getParentCategory().getName() : null);
         dto.setSubCategories(category.getChildren()
                 .stream()
                 .map(categoryChild -> categoryChild.getName().toString())
                 .toList());
         return dto;
     }
+
 }

@@ -17,7 +17,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping("/category")
 public class CategoryController {
     private final CategoryService categoryService;
-    @GetMapping("{categoryName}")
+    @GetMapping("/{categoryName}")
     public ResponseEntity<?> getCategory(@PathVariable(name = "categoryName") String categoryName) {
         try{
             var category = categoryService.getCategory(categoryName);
@@ -28,14 +28,14 @@ public class CategoryController {
                     NOT_FOUND);
         }
     }
-    @GetMapping()
+    @GetMapping("/")
     public ResponseEntity<?> getAllCategories() {
         try {
             var categories = categoryService.getAllCategories();
             return new ResponseEntity<>(categories, OK);
         } catch (Exception exception) {
             return new ResponseEntity<>(new AppError(NOT_FOUND.value(),
-                    "Categories not found"), NOT_FOUND);
+                    exception.getMessage()), NOT_FOUND);
         }
     }
     @PostMapping("/add")
