@@ -17,6 +17,12 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     @Override
     public void addCategory(String category, String description, String parentCategory) {
+        var categoryList = categoryRepository.findAll();
+        for (CategoryEntity cat: categoryList) {
+            if(cat.getName().equals(category)) {
+                throw new RuntimeException("Category already exists");
+            }
+        }
         CategoryEntity categoryEntity = new CategoryEntity();
         categoryEntity.setName(category);
         categoryEntity.setDescription(description);
@@ -29,6 +35,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void createSubCategory(String category, String description, String parentCategory) {
+        var categoryList = categoryRepository.findAll();
+        for (CategoryEntity cat: categoryList) {
+            if(cat.getName().equals(category)) {
+                throw new RuntimeException("Category already exists");
+            }
+        }
         CategoryEntity categoryEntity = new CategoryEntity();
         categoryEntity.setName(category);
         categoryEntity.setDescription(description);
